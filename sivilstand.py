@@ -1,51 +1,70 @@
 import matplotlib.pyplot as plt
 import json
-import numpy as np
 
 
-filnavn = "sivilstand.json"
-gjennomsnitt1 = []
-gjennomsnitt2 = []
-gjennomsnitt3 = []
-gjennomsnitt4 = []
-gjennomsnitt5 = []
+class Fil:
+    def __init__(self, filnavn, filtype, overskrift):
+        self.filnavn = filnavn
+        self.filtype = filtype
+        self.overskrift = overskrift
 
-with open(filnavn, encoding="utf-8") as fil:
-    data = json.load(fil)
+        if filtype == "json":
+            with open(self.filnavn, encoding="utf-8-sig") as fil:
+                data = json.load(fil)
 
-    aarstallData = data["dataset"]["dimension"]["Tid"]["category"]["label"]
-    aarstall = list(aarstallData.values())
+                self.aarstallData = data["dataset"]["dimension"]["Tid"]["category"]["label"]
+                self.aarstall = list(self.aarstallData.values())
+                # gjøres om til tall for å kunne endre de senere i grafen
+                for i in range(0, len(self.aarstall)):
+                    self.aarstall[i] = int(self.aarstall[i])
 
-    gjennomsnittData = data["dataset"]["value"]
+                self.gjennomsnittutvikling = data["dataset"]["value"]
 
-    for i in range(0, 42):
-        gjennomsnitt1.append(gjennomsnittData[i])
+    def PlassereData(self):
+        self.utvikling1 = []
+        self.utvikling2 = []
+        self.utvikling3 = []
+        self.utvikling4 = []
+        self.utvikling5 = []
 
-    for i in range(42, 42+42):
-        gjennomsnitt2.append(gjennomsnittData[i])
+        for i in range(0, 42):
+            self.utvikling1.append(self.gjennomsnittutvikling[i])
 
-    for i in range(84, 84+42):
-        gjennomsnitt3.append(gjennomsnittData[i])
+        for i in range(42, 42+42):
+            self.utvikling2.append(self.gjennomsnittutvikling[i])
 
-    for i in range(126, 126+42):
-        gjennomsnitt4.append(gjennomsnittData[i])
+        for i in range(84, 84+42):
+            self.utvikling3.append(self.gjennomsnittutvikling[i])
 
-    for i in range(168, len(gjennomsnittData)):
-        gjennomsnitt5.append(gjennomsnittData[i])
+        for i in range(126, 126+42):
+            self.utvikling4.append(self.gjennomsnittutvikling[i])
+
+        for i in range(168, len(self.gjennomsnittutvikling)):
+            self.utvikling5.append(self.gjennomsnittutvikling[i])
+
+    def skriveLister(self):
+        print(self.aarstall)
+        print(self.gjennomsnittutvikling)
+
+    def plotteGrafer(self):
+        plt.plot(self.aarstall, self.utvikling1)
+        plt.plot(self.aarstall, self.utvikling2)
+        plt.plot(self.aarstall, self.utvikling3)
+        plt.plot(self.aarstall, self.utvikling4)
+        plt.plot(self.aarstall, self.utvikling5)
+
+    def pynteGrafer(self):
+        plt.ylim(0, 4000000)
+        plt.xlim(1769, 2022)
+        plt.xlabel("")
+        plt.ylabel("")
+        plt.title(self.overskrift)
+        plt.grid()
+        plt.show()
 
 
-print(gjennomsnittData)
-print(aarstall)
-
-
-plt.plot(aarstall, gjennomsnitt1)
-plt.plot(aarstall, gjennomsnitt2)
-plt.plot(aarstall, gjennomsnitt3)
-plt.plot(aarstall, gjennomsnitt4)
-plt.plot(aarstall, gjennomsnitt5)
-plt.ylim(0, 700000)
-plt.xlabel("År")
-plt.ylabel("")
-plt.title("")
-plt.grid()
-plt.show()
+sivilstand = Fil("Sivilstand.json", "json", "Sivilstand fra 1769 til i dag")
+sivilstand.PlassereData()
+# sivilstand.skriveLister()
+sivilstand.plotteGrafer()
+sivilstand.pynteGrafer()
