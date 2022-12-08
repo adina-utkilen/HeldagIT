@@ -21,37 +21,18 @@ class Fil:
                 self.gjennomsnittutvikling = data["dataset"]["value"]
 
     def PlassereData(self):
-        self.utvikling1 = []
-        self.utvikling2 = []
-        self.utvikling3 = []
-        self.utvikling4 = []
-        self.utvikling5 = []
+        self.utvikling = []
 
-        for i in range(0, 42):
-            self.utvikling1.append(self.gjennomsnittutvikling[i])
-
-        for i in range(42, 42+42):
-            self.utvikling2.append(self.gjennomsnittutvikling[i])
-
-        for i in range(84, 84+42):
-            self.utvikling3.append(self.gjennomsnittutvikling[i])
-
-        for i in range(126, 126+42):
-            self.utvikling4.append(self.gjennomsnittutvikling[i])
-
-        for i in range(168, len(self.gjennomsnittutvikling)):
-            self.utvikling5.append(self.gjennomsnittutvikling[i])
+        for i in range(0, len(self.gjennomsnittutvikling), 42):
+            self.utvikling.append(self.gjennomsnittutvikling[i:i+42])
 
     def skriveLister(self):
         print(self.aarstall)
-        print(self.gjennomsnittutvikling)
+        print(self.utvikling)
 
     def plotteGrafer(self):
-        plt.plot(self.aarstall, self.utvikling1)
-        plt.plot(self.aarstall, self.utvikling2)
-        plt.plot(self.aarstall, self.utvikling3)
-        plt.plot(self.aarstall, self.utvikling4)
-        plt.plot(self.aarstall, self.utvikling5)
+        for i in range(0, 5):
+            plt.plot(self.aarstall, self.utvikling[i])
 
     def pynteGrafer(self):
         plt.ylim(0, 4000000)
