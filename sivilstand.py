@@ -20,6 +20,9 @@ class Fil:
 
                 self.gjennomsnittutvikling = data["dataset"]["value"]
 
+                self.label = data["dataset"]["dimension"]["EkteskStatus"]["category"]["label"]
+                self.label = list(self.label.values())
+
     def PlassereData(self):
         self.utvikling = []
 
@@ -28,11 +31,12 @@ class Fil:
 
     def skriveLister(self):
         print(self.aarstall)
+        print(self.label)
         print(self.utvikling)
 
     def plotteGrafer(self):
         for i in range(0, 5):
-            plt.plot(self.aarstall, self.utvikling[i])
+            plt.plot(self.aarstall, self.utvikling[i], label=self.label[i])
 
     def pynteGrafer(self):
         plt.ylim(0, 4000000)
@@ -41,6 +45,7 @@ class Fil:
         plt.ylabel("")
         plt.title(self.overskrift)
         plt.grid()
+        plt.legend()
         plt.show()
 
 
