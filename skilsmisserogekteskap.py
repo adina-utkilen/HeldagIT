@@ -26,7 +26,8 @@ class Fil:
                 self.ekteskap.append(self.data[1])
                 self.skillsmisse.append(self.data[2])
 
-                print(self.aarstall)
+    def fjerneOverskrift(self):
+        self.aarstall.pop()
 
 
 Skilsmisser = Fil("Skilsmisserogekteskap.csv", "csv",
