@@ -14,7 +14,7 @@ class Fil:
             with open(filnavn, encoding="utf-8") as fil:
                 self.filinnhold = csv.reader(fil, delimiter=";")
 
-                overskrifter = next(self.filinnhold)
+                next(self.filinnhold)
               #  print(str(overskrifter))
 
                 for rad in self.filinnhold:
@@ -28,15 +28,48 @@ class Fil:
                 self.skillsmisse = self.data[2]
 
                 for i in range(0, len(self.aarstall)):
-                    self.aarstall[i] = int(self.aarstall[i])
+                    if self.aarstall[i]=="..":
+                        self.aarstall[i] = 0
+                    else:
+                        self.aarstall[i] = int(self.aarstall[i])
+                    
 
                 for i in range(0, len(self.ekteskap)):
-                    self.ekteskap[i] = int(self.ekteskap[i])
+                    if self.ekteskap[i]=="..":
+                        self.ekteskap[i] = 0
+                    else:
+                        self.ekteskap[i] = int(self.ekteskap[i])
+                    
 
                 for i in range(0, len(self.skillsmisse)):
-                    self.skillsmisse[i] = int(self.skillsmisse[i])
+                    if self.skillsmisse[i]=="..":
+                        self.skillsmisse[i] = 0
+                    else:
+                        self.skillsmisse[i] = int(self.skillsmisse[i])
+
+                print(self.aarstall)
+                print(self.ekteskap)
+                print(self.skillsmisse)
+                    
 
     def plotteGraf(self):
+        fig, ax = plt.subplots(figsize=(10, 5))    # Angir dimensjoner for figure-objektet
+
+        y = np.arange(13)
+
+        ax.barh(y+0.2, self.ekteskap, height=0.4, label="Ekteskap")  # Lager stolpediagram jenter
+        ax.barh(y-0.2, self.skillsmisse, height=0.4, label="Skillsmisse")  # Lager stolpediagram gutter
+        ax.set_yticks(y, self.aarstall)                       # Legger til akseverdier
+        ax.legend()                                               # Legger til beskrivelse
+
+        fig.subplots_adjust(left=0.1)  # Øker plassen på venstre side av diagrammet
+
+        plt.title('Inngåtte ekteskap og skilsmisser i perioden 1902-2022') #Lager tittel
+
+        ax.grid(axis="x")  # Legger til rutenett (bare vertikale linjer)
+        plt.show()  
+
+        """
         fig, ax = plt.subplots(figsize=(10, 5))
         y = np.arange(10)
         # Lager stolpediagram jenter
@@ -52,6 +85,7 @@ class Fil:
 
         ax.grid(axis="x")  # Legger til rutenett (bare vertikale linjer)
         plt.show()
+        """
 
 
 Skilsmisser = Fil("Skilsmisserogekteskap.csv", "csv",
