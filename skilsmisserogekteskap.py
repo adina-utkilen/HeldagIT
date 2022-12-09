@@ -33,6 +33,8 @@ class Fil:
                 for i in range(0, len(self.ekteskap)):
                     self.ekteskap[i] = int(self.ekteskap[i])
 
+                print(self.ekteskap)
+
                 for i in range(0, len(self.skillsmisse)):
                     self.skillsmisse[i] = int(self.skillsmisse[i])
 
@@ -56,4 +58,4 @@ class Fil:
 
 Skilsmisser = Fil("Skilsmisserogekteskap.csv", "csv",
                   "Inngåtte ekteskap og skilsmisser fra 1902 til 2022")
-Skilsmisser.plotteGraf()
+# Skilsmisser.plotteGraf()
